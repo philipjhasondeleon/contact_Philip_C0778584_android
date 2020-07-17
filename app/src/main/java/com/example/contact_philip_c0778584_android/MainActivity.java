@@ -56,8 +56,6 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
 
         }
         return c.getCount();
-
-
     }
 
     @Override
@@ -69,7 +67,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         address.setText("");
         email.setText("");
         loadData();
-        tv.setText("You have "+loadData()+" Contacts");
+        tv.setText(""+loadData()+" Contacts");
     }
 
     @Override
@@ -97,27 +95,27 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         String mEmail = email.getText().toString().trim();
 
         if (fName.isEmpty()){
-            fname.setError("Name field is required");
+            fname.setError("Please Enter First Name");
             fname.requestFocus();
             return;
         }
         if (lName.isEmpty()){
-            lname.setError("Last Name cannot be empty");
+            lname.setError("Please Enter Last Name");
             lname.requestFocus();
             return;
         }
         if (mPhone.isEmpty()){
-            phone.setError("Phone Number cannot be empty");
+            phone.setError("Please Enter Phone Number");
             phone.requestFocus();
             return;
         }
         if (mAddress.isEmpty()){
-            address.setError("Address cannot be empty");
+            address.setError("Please Enter Address");
             address.requestFocus();
             return;
         }
         if (mEmail.isEmpty()){
-            email.setError("Email cannot be empty");
+            email.setError("Please Enter Email");
             email.requestFocus();
             return;
         }
@@ -132,7 +130,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         if (!isSame){
 
             if (mDatabase.addEmployee(fName,lName,mPhone,mAddress,mEmail)){
-                Toast.makeText(this, "Person added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Contact Added", Toast.LENGTH_SHORT).show();
             }else {
                 // Toast.makeText(this, "Person  not added", Toast.LENGTH_SHORT).show();
             }
