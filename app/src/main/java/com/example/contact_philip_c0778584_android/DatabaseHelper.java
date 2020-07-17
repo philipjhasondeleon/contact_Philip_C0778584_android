@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_LNAME = "lname";
     private static final String COLUMN_PHONE = "phone";
     private static final String COLUMN_ADDRESS = "address";
+    private static final String COLUMN_EMAIL = "email";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_FNAME + " varchar(200) NOT NULL, " +
                 COLUMN_LNAME + " varchar(200) NOT NULL, " +
                 COLUMN_PHONE + " varchar(20) NOT NULL, " +
-                COLUMN_ADDRESS + " varchar(300) NOT NULL); ";
+                COLUMN_ADDRESS + " varchar(300) NOT NULL," +
+                COLUMN_EMAIL + " varchar(300) NOT NULL); ";
         db.execSQL(sql);
     }
 
@@ -42,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    boolean addEmployee(String fname, String lname, String phone, String address) {
+    boolean addEmployee(String fname, String lname, String phone, String address,String email) {
 
 
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -55,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_LNAME,fname);
         cv.put(COLUMN_PHONE,phone);
         cv.put(COLUMN_ADDRESS,address);
+        cv.put(COLUMN_EMAIL,email);
 
         return  sqLiteDatabase.insert(TABLE_NAME,null,cv)!= 1;
     }
@@ -64,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
     }
 
-    boolean updatePersonData(int id,String fname,String lname,String phone,String address){
+    boolean updatePersonData(int id,String fname,String lname,String phone,String address,String email){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -74,6 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_LNAME,fname);
         cv.put(COLUMN_PHONE,phone);
         cv.put(COLUMN_ADDRESS,address);
+        cv.put(COLUMN_EMAIL,email);
 
         //returns the affected num of rows;
         return  sqLiteDatabase.update(TABLE_NAME,cv,COLUMN_ID+" = ? ",new String[]{String.valueOf(id)}) >0 ;

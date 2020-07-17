@@ -44,6 +44,7 @@ public class PersonAdapter extends ArrayAdapter {
         TextView tvsalary = v.findViewById(R.id.tv_Lname);
         TextView tvdept = v.findViewById(R.id.tv_Phone);
         TextView tvjoinDate = v.findViewById(R.id.tv_Address);
+        TextView tvEmail = v.findViewById(R.id.tv_Email);
 
 
         final Person person = personList.get(position);
@@ -110,12 +111,14 @@ public class PersonAdapter extends ArrayAdapter {
         final EditText updateLName = customLayout.findViewById(R.id.update_Lname);
         final EditText updatePhone = customLayout.findViewById(R.id.update_phone);
         final EditText updateAddress = customLayout.findViewById(R.id.update_Address);
+        final EditText updateEmail = customLayout.findViewById(R.id.update_email);
 
 
         updateFName.setText(person.getFname());
         updateLName.setText(person.getLname());
         updatePhone.setText(person.getPhone());
         updateAddress.setText(person.getAddress());
+        updateEmail.setText(person.getEmail());
 
 
         final AlertDialog alertDialog = builder.create();
@@ -125,9 +128,9 @@ public class PersonAdapter extends ArrayAdapter {
             public void onClick(View v) {
                 String fname = updateFName.getText().toString().trim();
                 String lname = updateLName.getText().toString().trim();
-
                 String phone = updatePhone.getText().toString().trim();
                 String address = updateAddress.getText().toString().trim();
+                String email = updateEmail.getText().toString().trim();
 
 
                 if (fname.isEmpty()){
@@ -152,11 +155,17 @@ public class PersonAdapter extends ArrayAdapter {
                     return;
                 }
 
-                if (mDatabase.updatePersonData(person.getId(),fname,lname,phone,address)){
+                if (email.isEmpty()){
+                    updateEmail.setError("Please enter Email");
+                    updateEmail.requestFocus();
+                    return;
+                }
+
+                if (mDatabase.updatePersonData(person.getId(),fname,lname,phone,address,email)){
                     Toast.makeText(mContext, "DATA UPDATED", Toast.LENGTH_SHORT).show();
                     loadData();
                 }else {
-                    Toast.makeText(mContext, "DATA IS NOT UPDATED", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "PERSON DATA  NOT UPDATED", Toast.LENGTH_SHORT).show();
                 }
                 alertDialog.dismiss();
             }
@@ -173,7 +182,9 @@ public class PersonAdapter extends ArrayAdapter {
                         .contains(charText) || person.getFname().toLowerCase(Locale.getDefault())
                         .contains(charText)|| person.getLname().toLowerCase(Locale.getDefault())
                         .contains(charText) || person.getAddress().toLowerCase(Locale.getDefault())
-                        .contains(charText)) {
+                        .contains(charText) || person.getEmail().toLowerCase(Locale.getDefault())
+                        .contains(charText))
+                {
                     personList.add(person);
                 }
             }
@@ -188,7 +199,7 @@ public class PersonAdapter extends ArrayAdapter {
         personList.clear();
         if (c.moveToFirst()){
             do {
-                personList.add(new Person(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4)));
+                personList.add(new Person(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4),c.getString(5)));
             }while (c.moveToNext());
             c.close();
             }
